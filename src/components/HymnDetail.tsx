@@ -1,17 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Heart, Play, Share, Music } from "lucide-react";
+import { ArrowLeft, Heart, Edit, Trash2, Music } from "lucide-react";
 import { Hymn } from "@/data/hymns";
 
 interface HymnDetailProps {
   hymn: Hymn;
   onBack: () => void;
   onFavorite: () => void;
-  onPlay: () => void;
-  onShare: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onMusicSheet: () => void;
 }
 
-export const HymnDetail = ({ hymn, onBack, onFavorite, onPlay, onShare }: HymnDetailProps) => {
+export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusicSheet }: HymnDetailProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-hymnal-cream to-hymnal-parchment">
       <header className="sticky top-0 bg-card/95 backdrop-blur-md border-b border-hymnal-burgundy/20 px-4 py-3 safe-area-top">
@@ -25,13 +26,19 @@ export const HymnDetail = ({ hymn, onBack, onFavorite, onPlay, onShare }: HymnDe
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" onClick={onFavorite}>
               <Heart
-                className={`h-5 w-5 ${
-                  hymn.isFavorite ? "fill-hymnal-burgundy text-hymnal-burgundy" : "text-muted-foreground"
+                className={`h-5 w-5 transition-all duration-200 ${
+                  hymn.isFavorite ? "fill-hymnal-burgundy text-hymnal-burgundy scale-110" : "text-muted-foreground"
                 }`}
               />
             </Button>
-            <Button variant="ghost" size="icon" onClick={onShare}>
-              <Share className="h-5 w-5" />
+            <Button variant="ghost" size="icon" onClick={onMusicSheet}>
+              <Music className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={onEdit}>
+              <Edit className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={onDelete}>
+              <Trash2 className="h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -57,10 +64,6 @@ export const HymnDetail = ({ hymn, onBack, onFavorite, onPlay, onShare }: HymnDe
           </CardHeader>
           <CardContent>
             <div className="flex gap-3 mb-6">
-              <Button variant="hymnal" onClick={onPlay} className="flex-1">
-                <Play className="h-4 w-4" />
-                Listen
-              </Button>
               <span className="bg-hymnal-burgundy/10 text-hymnal-burgundy px-3 py-2 rounded-md text-sm font-medium">
                 {hymn.category}
               </span>

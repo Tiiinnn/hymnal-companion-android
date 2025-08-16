@@ -1,14 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react";
 import { useState } from "react";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
-  onFilter: () => void;
 }
 
-export const SearchBar = ({ onSearch, onFilter }: SearchBarProps) => {
+export const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,9 +29,6 @@ export const SearchBar = ({ onSearch, onFilter }: SearchBarProps) => {
       </div>
       <Button type="submit" variant="hymnal" size="default">
         Search
-      </Button>
-      <Button type="button" variant="hymnal-outline" size="icon" onClick={onFilter}>
-        <Filter className="h-4 w-4" />
       </Button>
     </form>
   );

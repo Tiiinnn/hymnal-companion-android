@@ -3,26 +3,34 @@ import { SearchBar } from "@/components/SearchBar";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { HymnCard } from "@/components/HymnCard";
 import { HymnDetail } from "@/components/HymnDetail";
+import { EditHymnForm } from "@/components/EditHymnForm";
+import { MusicSheetView } from "@/components/MusicSheetView";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { Navigation } from "@/components/Navigation";
 import { AddHymnForm } from "@/components/AddHymnForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { hymnsData, categories, Hymn } from "@/data/hymns";
+import { sortHymnsAlphabetically } from "@/utils/hymnUtils";
 import { BookOpen, Music, Heart, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [selectedHymn, setSelectedHymn] = useState<Hymn | null>(null);
+  const [editingHymn, setEditingHymn] = useState<Hymn | null>(null);
+  const [viewingMusicSheet, setViewingMusicSheet] = useState<Hymn | null>(null);
+  const [deleteHymn, setDeleteHymn] = useState<Hymn | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [favorites, setFavorites] = useState<number[]>([]);
   const [customHymns, setCustomHymns] = useState<Hymn[]>([]);
   const { toast } = useToast();
 
-  // Combine original hymns with custom hymns
+  // Combine and sort hymns alphabetically
   const allHymns = useMemo(() => {
-    return [...hymnsData, ...customHymns];
+    const combined = [...hymnsData, ...customHymns];
+    return sortHymnsAlphabetically(combined);
   }, [customHymns]);
 
   const filteredHymns = useMemo(() => {
@@ -60,13 +68,50 @@ const Index = () => {
     tune?: string;
   }) => {
     const newHymn: Hymn = {
-      id: Date.now(), // Simple ID generation
-      number: allHymns.length + 1,
+      id: Date.now(),
+      number: 0, // Will be recalculated when sorted
       firstLine: newHymnData.lyrics[0]?.split('\n')[0] || "",
       ...newHymnData,
     };
     
     setCustomHymns(prev => [...prev, newHymn]);
+  };
+
+  const handleEditHymn = (updatedHymn: Hymn) => {
+    if (hymnsData.find(h => h.id === updatedHymn.id)) {
+      // Can't edit original hymns, show message
+      toast({
+        title: "Cannot Edit",
+        description: "Original hymns cannot be edited. You can only edit custom hymns you've added.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setCustomHymns(prev => 
+      prev.map(hymn => hymn.id === updatedHymn.id ? updatedHymn : hymn)
+    );
+    setEditingHymn(null);
+  };
+
+  const handleDeleteHymn = (hymn: Hymn) => {
+    if (hymnsData.find(h => h.id === hymn.id)) {
+      toast({
+        title: "Cannot Delete",
+        description: "Original hymns cannot be deleted. You can only delete custom hymns you've added.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setCustomHymns(prev => prev.filter(h => h.id !== hymn.id));
+    setFavorites(prev => prev.filter(id => id !== hymn.id));
+    setDeleteHymn(null);
+    
+    toast({
+      title: "Hymn Deleted",
+      description: `"${hymn.title}" has been removed from your collection.`,
+    });
   };
 
   const handleFavorite = (hymnId: number) => {
@@ -84,27 +129,25 @@ const Index = () => {
     });
   };
 
-  const handlePlay = (hymn: Hymn) => {
-    toast({
-      title: "Playing hymn",
-      description: `Now playing: ${hymn.title}`,
-    });
-  };
+  // Handle different views
+  if (viewingMusicSheet) {
+    return (
+      <MusicSheetView
+        hymn={viewingMusicSheet}
+        onBack={() => setViewingMusicSheet(null)}
+      />
+    );
+  }
 
-  const handleShare = (hymn: Hymn) => {
-    if (navigator.share) {
-      navigator.share({
-        title: hymn.title,
-        text: `${hymn.firstLine} - by ${hymn.author}`,
-        url: window.location.href,
-      });
-    } else {
-      toast({
-        title: "Sharing",
-        description: "Sharing functionality not available on this device.",
-      });
-    }
-  };
+  if (editingHymn) {
+    return (
+      <EditHymnForm
+        hymn={editingHymn}
+        onSave={handleEditHymn}
+        onCancel={() => setEditingHymn(null)}
+      />
+    );
+  }
 
   if (selectedHymn) {
     return (
@@ -112,8 +155,9 @@ const Index = () => {
         hymn={selectedHymn}
         onBack={() => setSelectedHymn(null)}
         onFavorite={() => handleFavorite(selectedHymn.id)}
-        onPlay={() => handlePlay(selectedHymn)}
-        onShare={() => handleShare(selectedHymn)}
+        onEdit={() => setEditingHymn(selectedHymn)}
+        onDelete={() => setDeleteHymn(selectedHymn)}
+        onMusicSheet={() => setViewingMusicSheet(selectedHymn)}
       />
     );
   }
@@ -155,8 +199,10 @@ const Index = () => {
               {...hymn}
               isFavorite={favorites.includes(hymn.id)}
               onFavorite={() => handleFavorite(hymn.id)}
-              onPlay={() => handlePlay(hymn)}
-              onShare={() => handleShare(hymn)}
+              onEdit={() => setEditingHymn(hymn)}
+              onDelete={() => setDeleteHymn(hymn)}
+              onMusicSheet={() => setViewingMusicSheet(hymn)}
+              onClick={() => setSelectedHymn(hymn)}
             />
           ))}
         </div>
@@ -173,10 +219,7 @@ const Index = () => {
 
   const renderBrowse = () => (
     <div className="space-y-6">
-      <SearchBar 
-        onSearch={setSearchQuery}
-        onFilter={() => toast({ title: "Filters", description: "Advanced filters coming soon!" })}
-      />
+      <SearchBar onSearch={setSearchQuery} />
       
       <CategoryTabs
         categories={categories}
@@ -187,15 +230,16 @@ const Index = () => {
       <div className="space-y-3">
         {filteredHymns.length > 0 ? (
           filteredHymns.map((hymn) => (
-            <div key={hymn.id} onClick={() => setSelectedHymn(hymn)}>
-              <HymnCard
-                {...hymn}
-                isFavorite={hymn.isFavorite}
-                onFavorite={() => handleFavorite(hymn.id)}
-                onPlay={() => handlePlay(hymn)}
-                onShare={() => handleShare(hymn)}
-              />
-            </div>
+            <HymnCard
+              key={hymn.id}
+              {...hymn}
+              isFavorite={hymn.isFavorite}
+              onFavorite={() => handleFavorite(hymn.id)}
+              onEdit={() => setEditingHymn(hymn)}
+              onDelete={() => setDeleteHymn(hymn)}
+              onMusicSheet={() => setViewingMusicSheet(hymn)}
+              onClick={() => setSelectedHymn(hymn)}
+            />
           ))
         ) : (
           <Card className="border-hymnal-burgundy/20 bg-card/50">
@@ -244,6 +288,13 @@ const Index = () => {
       </main>
 
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+
+      <DeleteConfirmDialog
+        hymn={deleteHymn}
+        open={!!deleteHymn}
+        onConfirm={() => deleteHymn && handleDeleteHymn(deleteHymn)}
+        onCancel={() => setDeleteHymn(null)}
+      />
     </div>
   );
 };

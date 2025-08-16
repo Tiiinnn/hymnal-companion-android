@@ -13,7 +13,7 @@ export interface Hymn {
 export const hymnsData: Hymn[] = [
   {
     id: 1,
-    number: 1,
+    number: 1, // Will be recalculated alphabetically
     title: "Amazing Grace",
     author: "John Newton",
     firstLine: "Amazing grace, how sweet the sound",
@@ -27,7 +27,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 2,
-    number: 46,
+    number: 2, // Will be recalculated alphabetically
     title: "How Great Thou Art",
     author: "Carl Boberg",
     firstLine: "O Lord my God, when I in awesome wonder",
@@ -40,7 +40,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 3,
-    number: 89,
+    number: 3, // Will be recalculated alphabetically
     title: "Holy, Holy, Holy",
     author: "Reginald Heber",
     firstLine: "Holy, holy, holy! Lord God Almighty!",
@@ -53,7 +53,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 4,
-    number: 156,
+    number: 4, // Will be recalculated alphabetically
     title: "Be Thou My Vision",
     author: "Ancient Irish",
     firstLine: "Be Thou my vision, O Lord of my heart",
@@ -66,7 +66,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 5,
-    number: 201,
+    number: 5, // Will be recalculated alphabetically
     title: "It Is Well With My Soul",
     author: "Horatio G. Spafford",
     firstLine: "When peace, like a river, attendeth my way",
@@ -79,7 +79,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 6,
-    number: 278,
+    number: 6, // Will be recalculated alphabetically
     title: "Great Is Thy Faithfulness",
     author: "Thomas O. Chisholm",
     firstLine: "Great is Thy faithfulness, O God my Father",
@@ -92,7 +92,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 7,
-    number: 345,
+    number: 7, // Will be recalculated alphabetically
     title: "Blessed Assurance",
     author: "Fanny J. Crosby",
     firstLine: "Blessed assurance, Jesus is mine!",
@@ -105,7 +105,7 @@ export const hymnsData: Hymn[] = [
   },
   {
     id: 8,
-    number: 412,
+    number: 8, // Will be recalculated alphabetically
     title: "The Old Rugged Cross",
     author: "George Bennard",
     firstLine: "On a hill far away stood an old rugged cross",

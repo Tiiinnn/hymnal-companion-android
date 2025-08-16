@@ -8,8 +8,9 @@ interface CategoryTabsProps {
 
 export const CategoryTabs = ({ categories, activeCategory, onCategoryChange }: CategoryTabsProps) => {
   return (
-    <Tabs value={activeCategory} onValueChange={onCategoryChange} className="w-full">
-      <TabsList className="grid w-full bg-hymnal-burgundy/10 p-1 rounded-lg overflow-x-auto min-w-fit" style={{ gridTemplateColumns: `repeat(${categories.length}, minmax(0, 1fr))` }}>
+    <div className="w-full">
+      <Tabs value={activeCategory} onValueChange={onCategoryChange} className="w-full">
+        <TabsList className="grid w-full bg-hymnal-burgundy/10 p-1 rounded-lg" style={{ gridTemplateColumns: `repeat(${categories.length}, minmax(0, 1fr))` }}>
         {categories.map((category) => (
           <TabsTrigger
             key={category}
@@ -19,7 +20,8 @@ export const CategoryTabs = ({ categories, activeCategory, onCategoryChange }: C
             {category}
           </TabsTrigger>
         ))}
-      </TabsList>
-    </Tabs>
+        </TabsList>
+      </Tabs>
+    </div>
   );
 };

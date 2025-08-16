@@ -18,6 +18,9 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        hymnal: "bg-gradient-to-r from-hymnal-burgundy to-hymnal-burgundy-light text-hymnal-cream hover:shadow-lg hover:scale-105 transition-all duration-300",
+        "hymnal-outline": "border-2 border-hymnal-burgundy text-hymnal-burgundy bg-transparent hover:bg-hymnal-burgundy hover:text-hymnal-cream transition-all duration-300",
+        gold: "bg-gradient-to-r from-hymnal-gold to-yellow-400 text-hymnal-burgundy hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold",
       },
       size: {
         default: "h-10 px-4 py-2",

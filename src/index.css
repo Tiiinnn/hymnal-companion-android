@@ -8,33 +8,50 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Hymnal burgundy theme */
+    --background: 44 13% 95%;
+    --foreground: 345 83% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 345 83% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 345 83% 8%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 345 83% 21%;
+    --primary-foreground: 44 13% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 345 25% 92%;
+    --secondary-foreground: 345 83% 21%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 44 13% 90%;
+    --muted-foreground: 345 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 345 45% 85%;
+    --accent-foreground: 345 83% 21%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 345 25% 88%;
+    --input: 345 25% 88%;
+    --ring: 345 83% 21%;
+
+    /* Hymnal-specific colors */
+    --hymnal-burgundy: 345 83% 21%;
+    --hymnal-burgundy-light: 345 45% 35%;
+    --hymnal-gold: 45 100% 50%;
+    --hymnal-cream: 44 13% 95%;
+    --hymnal-parchment: 44 25% 92%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--hymnal-burgundy)), hsl(var(--hymnal-burgundy-light)));
+    --gradient-gold: linear-gradient(135deg, hsl(var(--hymnal-gold)), hsl(45 80% 45%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--hymnal-parchment)));
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--hymnal-burgundy) / 0.2);
+    --shadow-soft: 0 4px 12px -2px hsl(var(--hymnal-burgundy) / 0.1);
 
     --radius: 0.5rem;
 
@@ -56,33 +73,40 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 345 83% 8%;
+    --foreground: 44 13% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 345 50% 12%;
+    --card-foreground: 44 13% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 345 50% 12%;
+    --popover-foreground: 44 13% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 44 13% 95%;
+    --primary-foreground: 345 83% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 345 25% 18%;
+    --secondary-foreground: 44 13% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 345 25% 15%;
+    --muted-foreground: 345 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 345 25% 18%;
+    --accent-foreground: 44 13% 95%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 44 13% 95%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 345 25% 18%;
+    --input: 345 25% 18%;
+    --ring: 345 83% 21%;
+
+    /* Dark theme hymnal colors */
+    --hymnal-burgundy: 345 83% 35%;
+    --hymnal-burgundy-light: 345 45% 50%;
+    --hymnal-gold: 45 90% 60%;
+    --hymnal-cream: 44 13% 95%;
+    --hymnal-parchment: 345 25% 15%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

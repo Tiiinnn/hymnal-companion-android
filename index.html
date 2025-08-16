@@ -3,23 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Hymnal - Sacred Songs for Worship & Devotion</title>
-    <meta name="description" content="Complete digital hymnal app with hymns, lyrics, search, and favorites. Perfect for worship, personal devotion, and singing traditional hymns." />
-    <meta name="author" content="Digital Hymnal App" />
+    <title>Hymns - Sacred Songs for Worship & Devotion</title>
+    <meta name="description" content="Complete hymns app with hymns, lyrics, search, and favorites. Perfect for worship, personal devotion, and singing traditional hymns." />
+    <meta name="author" content="Hymns App" />
     <meta name="keywords" content="hymnal, hymns, worship, church songs, religious music, christian hymns, lyrics" />
 
-    <meta property="og:title" content="Digital Hymnal - Sacred Songs for Worship & Devotion" />
-    <meta property="og:description" content="Complete digital hymnal app with hymns, lyrics, search, and favorites. Perfect for worship and personal devotion." />
+    <meta property="og:title" content="Hymns - Sacred Songs for Worship & Devotion" />
+    <meta property="og:description" content="Complete hymns app with hymns, lyrics, search, and favorites. Perfect for worship and personal devotion." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#8B1538">
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

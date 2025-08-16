@@ -1,0 +1,19 @@
+{
+  "name": "Hymns",
+  "short_name": "Hymns",
+  "description": "Digital hymnal app for worship and devotion",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#8B1538",
+  "theme_color": "#8B1538",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["music", "lifestyle", "utilities"],
+  "lang": "en"
+}

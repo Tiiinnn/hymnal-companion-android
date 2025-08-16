@@ -4,12 +4,12 @@ import { CategoryTabs } from "@/components/CategoryTabs";
 import { HymnCard } from "@/components/HymnCard";
 import { HymnDetail } from "@/components/HymnDetail";
 import { Navigation } from "@/components/Navigation";
+import { AddHymnForm } from "@/components/AddHymnForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { hymnsData, categories, Hymn } from "@/data/hymns";
 import { BookOpen, Music, Heart, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import heroImage from "@/assets/hymnal-hero.jpg";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -17,10 +17,16 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [customHymns, setCustomHymns] = useState<Hymn[]>([]);
   const { toast } = useToast();
 
+  // Combine original hymns with custom hymns
+  const allHymns = useMemo(() => {
+    return [...hymnsData, ...customHymns];
+  }, [customHymns]);
+
   const filteredHymns = useMemo(() => {
-    let hymns = hymnsData.map(hymn => ({
+    let hymns = allHymns.map(hymn => ({
       ...hymn,
       isFavorite: favorites.includes(hymn.id)
     }));
@@ -44,7 +50,24 @@ const Index = () => {
     }
 
     return hymns;
-  }, [activeTab, activeCategory, searchQuery, favorites]);
+  }, [activeTab, activeCategory, searchQuery, favorites, allHymns]);
+
+  const handleAddHymn = (newHymnData: {
+    title: string;
+    author: string;
+    category: string;
+    lyrics: string[];
+    tune?: string;
+  }) => {
+    const newHymn: Hymn = {
+      id: Date.now(), // Simple ID generation
+      number: allHymns.length + 1,
+      firstLine: newHymnData.lyrics[0]?.split('\n')[0] || "",
+      ...newHymnData,
+    };
+    
+    setCustomHymns(prev => [...prev, newHymn]);
+  };
 
   const handleFavorite = (hymnId: number) => {
     setFavorites(prev => {
@@ -97,13 +120,10 @@ const Index = () => {
 
   const renderHome = () => (
     <div className="space-y-6">
-      <div 
-        className="relative h-64 rounded-lg overflow-hidden bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="absolute inset-0 bg-hymnal-burgundy/60 flex items-center justify-center">
+      <div className="relative h-64 rounded-lg overflow-hidden bg-gradient-to-br from-hymnal-burgundy to-hymnal-burgundy-light">
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-hymnal-cream p-6">
-            <h1 className="text-3xl font-bold font-serif mb-2">Digital Hymnal</h1>
+            <h1 className="text-3xl font-bold font-serif mb-2">Hymns</h1>
             <p className="text-lg opacity-90">Sacred songs for worship & devotion</p>
           </div>
         </div>
@@ -112,8 +132,8 @@ const Index = () => {
       <div className="grid grid-cols-2 gap-4">
         <Card className="border-hymnal-burgundy/20 bg-card/50 backdrop-blur-sm">
           <CardContent className="p-6 text-center">
-            <BookOpen className="h-8 w-8 text-hymnal-burgundy mx-auto mb-2" />
-            <h3 className="font-semibold text-hymnal-burgundy mb-1">{hymnsData.length}</h3>
+            <Music className="h-8 w-8 text-hymnal-burgundy mx-auto mb-2" />
+            <h3 className="font-semibold text-hymnal-burgundy mb-1">{allHymns.length}</h3>
             <p className="text-sm text-muted-foreground">Hymns</p>
           </CardContent>
         </Card>
@@ -129,7 +149,7 @@ const Index = () => {
       <div>
         <h2 className="text-xl font-semibold text-hymnal-burgundy mb-4">Popular Hymns</h2>
         <div className="space-y-3">
-          {hymnsData.slice(0, 3).map((hymn) => (
+          {allHymns.slice(0, 3).map((hymn) => (
             <HymnCard
               key={hymn.id}
               {...hymn}
@@ -195,7 +215,7 @@ const Index = () => {
       case "home": return renderHome();
       case "browse": return renderBrowse();
       case "favorites": return renderBrowse();
-      case "hymnal": return renderBrowse();
+      case "add": return <AddHymnForm onAddHymn={handleAddHymn} />;
       case "settings": return (
         <Card className="border-hymnal-burgundy/20 bg-card/50">
           <CardContent className="p-8 text-center">
@@ -212,10 +232,10 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-hymnal-cream to-hymnal-parchment">
       <header className="sticky top-0 bg-card/95 backdrop-blur-md border-b border-hymnal-burgundy/20 px-4 py-3 safe-area-top">
         <h1 className="text-xl font-bold text-hymnal-burgundy text-center">
-          {activeTab === "home" ? "Digital Hymnal" : 
+          {activeTab === "home" ? "Hymns" : 
            activeTab === "browse" ? "Browse Hymns" :
            activeTab === "favorites" ? "My Favorites" :
-           activeTab === "hymnal" ? "Hymnal" : "Settings"}
+           activeTab === "add" ? "Add Hymns" : "Settings"}
         </h1>
       </header>
 

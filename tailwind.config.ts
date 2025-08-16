@@ -52,13 +52,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				hymnal: {
-					burgundy: 'hsl(var(--hymnal-burgundy))',
-					'burgundy-light': 'hsl(var(--hymnal-burgundy-light))',
-					gold: 'hsl(var(--hymnal-gold))',
-					cream: 'hsl(var(--hymnal-cream))',
-					parchment: 'hsl(var(--hymnal-parchment))'
-				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

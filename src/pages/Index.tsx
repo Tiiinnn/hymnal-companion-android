@@ -65,7 +65,7 @@ const Index = () => {
     author: string;
     category: string;
     lyrics: string[];
-    tune?: string;
+    keySignature?: string;
     musicSheetUrl?: string;
   }) => {
     const newHymn: Hymn = {
@@ -193,7 +193,9 @@ const Index = () => {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold text-hymnal-burgundy mb-4">Recent Hymns</h2>
+        <div className="sticky top-16 bg-gradient-to-b from-hymnal-cream to-hymnal-parchment/95 backdrop-blur-sm pb-2 mb-4 z-10">
+          <h2 className="text-xl font-semibold text-hymnal-burgundy">Recent Hymns</h2>
+        </div>
         <div className="space-y-3">
           {allHymns.filter(hymn => hymn.addedAt).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).slice(0, 3).length > 0 ? 
             allHymns.filter(hymn => hymn.addedAt).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).slice(0, 3).map((hymn) => (
@@ -233,13 +235,15 @@ const Index = () => {
 
   const renderBrowse = () => (
     <div className="space-y-6">
-      <SearchBar onSearch={setSearchQuery} />
-      
-      <CategoryTabs
-        categories={categories}
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
-      />
+      <div className="sticky top-16 bg-gradient-to-b from-hymnal-cream to-hymnal-parchment/95 backdrop-blur-sm pb-4 z-10 space-y-4">
+        <SearchBar onSearch={setSearchQuery} />
+        
+        <CategoryTabs
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+        />
+      </div>
 
       <div className="space-y-3">
         {filteredHymns.length > 0 ? (

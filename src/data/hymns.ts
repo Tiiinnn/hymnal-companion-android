@@ -6,7 +6,7 @@ export interface Hymn {
   firstLine: string;
   category: string;
   lyrics: string[];
-  tune?: string;
+  keySignature?: string;
   isFavorite?: boolean;
   musicSheetUrl?: string;
   addedAt?: number;
@@ -25,7 +25,7 @@ export const hymnsData: Hymn[] = [
       "'Twas grace that taught my heart to fear\nAnd grace my fears relieved\nHow precious did that grace appear\nThe hour I first believed",
       "Through many dangers, toils and snares\nI have already come\n'Tis grace hath brought me safe thus far\nAnd grace will lead me home"
     ],
-    tune: "New Britain"
+    keySignature: "G Major"
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ export const hymnsData: Hymn[] = [
       "O Lord my God, when I in awesome wonder\nConsider all the worlds Thy hands have made\nI see the stars, I hear the rolling thunder\nThy power throughout the universe displayed",
       "Then sings my soul, my Savior God, to Thee\nHow great Thou art, how great Thou art\nThen sings my soul, my Savior God, to Thee\nHow great Thou art, how great Thou art"
     ],
-    tune: "O Store Gud"
+    keySignature: "Bb Major"
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ export const hymnsData: Hymn[] = [
       "Holy, holy, holy! Lord God Almighty!\nEarly in the morning our song shall rise to Thee\nHoly, holy, holy! merciful and mighty!\nGod in three Persons, blessed Trinity!",
       "Holy, holy, holy! All the saints adore Thee\nCasting down their golden crowns around the glassy sea\nCherubim and seraphim falling down before Thee\nWhich wert, and art, and evermore shalt be"
     ],
-    tune: "Nicaea"
+    keySignature: "Eb Major"
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ export const hymnsData: Hymn[] = [
       "Be Thou my vision, O Lord of my heart\nNaught be all else to me, save that Thou art\nThou my best thought, by day or by night\nWaking or sleeping, Thy presence my light",
       "Be Thou my wisdom, and Thou my true word\nI ever with Thee and Thou with me, Lord\nThou my great Father, I Thy true son\nThou in me dwelling, and I with Thee one"
     ],
-    tune: "Slane"
+    keySignature: "F Major"
   },
   {
     id: 5,
@@ -77,7 +77,7 @@ export const hymnsData: Hymn[] = [
       "When peace, like a river, attendeth my way\nWhen sorrows like sea billows roll\nWhatever my lot, Thou hast taught me to say\nIt is well, it is well with my soul",
       "It is well with my soul\nIt is well, it is well with my soul"
     ],
-    tune: "Ville du Havre"
+    keySignature: "C Major"
   },
   {
     id: 6,
@@ -90,7 +90,7 @@ export const hymnsData: Hymn[] = [
       "Great is Thy faithfulness, O God my Father\nThere is no shadow of turning with Thee\nThou changest not, Thy compassions, they fail not\nAs Thou hast been, Thou forever will be",
       "Great is Thy faithfulness! Great is Thy faithfulness!\nMorning by morning new mercies I see\nAll I have needed Thy hand hath provided\nGreat is Thy faithfulness, Lord, unto me!"
     ],
-    tune: "Faithfulness"
+    keySignature: "Ab Major"
   },
   {
     id: 7,
@@ -103,7 +103,7 @@ export const hymnsData: Hymn[] = [
       "Blessed assurance, Jesus is mine!\nO what a foretaste of glory divine!\nHeir of salvation, purchase of God\nBorn of His Spirit, washed in His blood",
       "This is my story, this is my song\nPraising my Savior all the day long\nThis is my story, this is my song\nPraising my Savior all the day long"
     ],
-    tune: "Assurance"
+    keySignature: "D Major"
   },
   {
     id: 8,
@@ -116,7 +116,7 @@ export const hymnsData: Hymn[] = [
       "On a hill far away stood an old rugged cross\nThe emblem of suffering and shame\nAnd I love that old cross where the dearest and best\nFor a world of lost sinners was slain",
       "So I'll cherish the old rugged cross\nTill my trophies at last I lay down\nI will cling to the old rugged cross\nAnd exchange it some day for a crown"
     ],
-    tune: "The Old Rugged Cross"
+    keySignature: "G Major"
   }
 ];
 

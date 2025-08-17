@@ -1,9 +1,11 @@
-const CACHE_NAME = 'hymns-app-v1';
+const CACHE_NAME = 'hymns-app-v2';
 const urlsToCache = [
   '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
+  '/index.html',
+  '/src/main.tsx',
+  '/src/index.css',
+  '/manifest.json',
+  '/favicon.ico'
 ];
 
 self.addEventListener('install', (event) => {

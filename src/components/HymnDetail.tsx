@@ -58,10 +58,10 @@ export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusic
                   {hymn.number}. {hymn.title}
                 </CardTitle>
                 <p className="text-muted-foreground mt-1">by {hymn.author}</p>
-                {hymn.tune && (
+                {hymn.keySignature && (
                   <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                     <Music className="h-4 w-4" />
-                    Tune: {hymn.tune}
+                    Key: {hymn.keySignature}
                   </p>
                 )}
               </div>

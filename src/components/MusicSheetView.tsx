@@ -39,9 +39,9 @@ export const MusicSheetView = ({ hymn, onBack }: MusicSheetViewProps) => {
               {hymn.number}. {hymn.title}
             </CardTitle>
             <p className="text-muted-foreground">by {hymn.author}</p>
-            {hymn.tune && (
+            {hymn.keySignature && (
               <p className="text-sm text-muted-foreground">
-                Tune: {hymn.tune}
+                Key: {hymn.keySignature}
               </p>
             )}
           </CardHeader>

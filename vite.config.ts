@@ -7,6 +7,7 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig(() => ({
   server: {
     host: "localhost",  // ✅ restricts dev server to local machine
+    port: 8080
   },
   plugins: [
     react(),

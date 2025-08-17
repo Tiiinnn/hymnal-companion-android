@@ -8,6 +8,8 @@ export interface Hymn {
   lyrics: string[];
   tune?: string;
   isFavorite?: boolean;
+  musicSheetUrl?: string;
+  addedAt?: number;
 }
 
 export const hymnsData: Hymn[] = [

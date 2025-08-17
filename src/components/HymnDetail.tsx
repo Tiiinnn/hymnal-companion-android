@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Heart, Edit, Trash2, Music } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, Heart, Edit, Trash2, Music, FileText } from "lucide-react";
 import { Hymn } from "@/data/hymns";
 
 interface HymnDetailProps {
@@ -13,6 +16,8 @@ interface HymnDetailProps {
 }
 
 export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusicSheet }: HymnDetailProps) => {
+  const [showMusicSheet, setShowMusicSheet] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-hymnal-cream to-hymnal-parchment">
       <header className="sticky top-0 bg-card/95 backdrop-blur-md border-b border-hymnal-burgundy/20 px-4 py-3 safe-area-top">
@@ -73,18 +78,53 @@ export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusic
 
         <Card className="border-hymnal-burgundy/20 bg-card/50 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="text-lg text-hymnal-burgundy">Lyrics</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg text-hymnal-burgundy">
+                {showMusicSheet ? "Music Sheet" : "Lyrics"}
+              </CardTitle>
+              {hymn.musicSheetUrl && (
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="view-toggle" className="text-sm text-muted-foreground">
+                    <FileText className="h-4 w-4 inline mr-1" />
+                    Lyrics
+                  </Label>
+                  <Switch
+                    id="view-toggle"
+                    checked={showMusicSheet}
+                    onCheckedChange={setShowMusicSheet}
+                  />
+                  <Label htmlFor="view-toggle" className="text-sm text-muted-foreground">
+                    <Music className="h-4 w-4 inline mr-1" />
+                    Sheet
+                  </Label>
+                </div>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {hymn.lyrics.map((verse, index) => (
-                <div key={index} className="bg-hymnal-parchment/30 p-4 rounded-lg">
-                  <div className="whitespace-pre-line text-foreground leading-relaxed font-serif">
-                    {verse}
+            {showMusicSheet && hymn.musicSheetUrl ? (
+              <div className="text-center">
+                <img 
+                  src={hymn.musicSheetUrl} 
+                  alt={`Music sheet for ${hymn.title}`}
+                  className="w-full max-w-2xl mx-auto rounded-lg shadow-soft"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    setShowMusicSheet(false);
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {hymn.lyrics.map((verse, index) => (
+                  <div key={index} className="bg-hymnal-parchment/30 p-4 rounded-lg">
+                    <div className="whitespace-pre-line text-foreground leading-relaxed font-serif">
+                      {verse}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

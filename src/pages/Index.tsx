@@ -66,11 +66,13 @@ const Index = () => {
     category: string;
     lyrics: string[];
     tune?: string;
+    musicSheetUrl?: string;
   }) => {
     const newHymn: Hymn = {
       id: Date.now(),
       number: 0, // Will be recalculated when sorted
       firstLine: newHymnData.lyrics[0]?.split('\n')[0] || "",
+      addedAt: Date.now(),
       ...newHymnData,
     };
     
@@ -173,27 +175,39 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card className="border-hymnal-burgundy/20 bg-card/50 backdrop-blur-sm">
-          <CardContent className="p-6 text-center">
-            <Music className="h-8 w-8 text-hymnal-burgundy mx-auto mb-2" />
-            <h3 className="font-semibold text-hymnal-burgundy mb-1">{allHymns.length}</h3>
-            <p className="text-sm text-muted-foreground">Hymns</p>
+          <CardContent className="p-4 sm:p-6 text-center">
+            <Music className="h-6 w-6 sm:h-8 sm:w-8 text-hymnal-burgundy mx-auto mb-2" />
+            <h3 className="text-sm sm:text-base font-semibold text-hymnal-burgundy mb-1">{allHymns.length}</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">Hymns</p>
           </CardContent>
         </Card>
         <Card className="border-hymnal-burgundy/20 bg-card/50 backdrop-blur-sm">
-          <CardContent className="p-6 text-center">
-            <Heart className="h-8 w-8 text-hymnal-burgundy mx-auto mb-2" />
-            <h3 className="font-semibold text-hymnal-burgundy mb-1">{favorites.length}</h3>
-            <p className="text-sm text-muted-foreground">Favorites</p>
+          <CardContent className="p-4 sm:p-6 text-center">
+            <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-hymnal-burgundy mx-auto mb-2" />
+            <h3 className="text-sm sm:text-base font-semibold text-hymnal-burgundy mb-1">{favorites.length}</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">Favorites</p>
           </CardContent>
         </Card>
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold text-hymnal-burgundy mb-4">Popular Hymns</h2>
+        <h2 className="text-xl font-semibold text-hymnal-burgundy mb-4">Recent Hymns</h2>
         <div className="space-y-3">
-          {allHymns.slice(0, 3).map((hymn) => (
+          {allHymns.filter(hymn => hymn.addedAt).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).slice(0, 3).length > 0 ? 
+            allHymns.filter(hymn => hymn.addedAt).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).slice(0, 3).map((hymn) => (
+            <HymnCard
+              key={hymn.id}
+              {...hymn}
+              isFavorite={favorites.includes(hymn.id)}
+              onFavorite={() => handleFavorite(hymn.id)}
+              onEdit={() => setEditingHymn(hymn)}
+              onDelete={() => setDeleteHymn(hymn)}
+              onMusicSheet={() => setViewingMusicSheet(hymn)}
+              onClick={() => setSelectedHymn(hymn)}
+            />
+          )) : allHymns.slice(0, 3).map((hymn) => (
             <HymnCard
               key={hymn.id}
               {...hymn}

@@ -21,6 +21,7 @@ export const EditHymnForm = ({ hymn, onSave, onCancel }: EditHymnFormProps) => {
   const [category, setCategory] = useState(hymn.category);
   const [tune, setTune] = useState(hymn.tune || "");
   const [lyrics, setLyrics] = useState(hymn.lyrics.join('\n\n'));
+  const [musicSheetUrl, setMusicSheetUrl] = useState(hymn.musicSheetUrl || "");
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,6 +47,7 @@ export const EditHymnForm = ({ hymn, onSave, onCancel }: EditHymnFormProps) => {
       lyrics: lyricsArray,
       tune: tune.trim() || undefined,
       firstLine: lyricsArray[0]?.split('\n')[0] || "",
+      musicSheetUrl: musicSheetUrl.trim() || undefined,
     };
 
     onSave(updatedHymn);
@@ -142,6 +144,45 @@ export const EditHymnForm = ({ hymn, onSave, onCancel }: EditHymnFormProps) => {
                 />
                 <p className="text-xs text-muted-foreground">
                   Tip: Separate each verse with a blank line for proper formatting.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="musicSheet">Music Sheet URL (Optional)</Label>
+                  {musicSheetUrl && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => setMusicSheetUrl("")}
+                    >
+                      Remove Sheet
+                    </Button>
+                  )}
+                </div>
+                <Input
+                  id="musicSheet"
+                  type="url"
+                  value={musicSheetUrl}
+                  onChange={(e) => setMusicSheetUrl(e.target.value)}
+                  placeholder="Enter URL for music sheet image"
+                  className="bg-card/50 border-hymnal-burgundy/20 focus:border-hymnal-burgundy"
+                />
+                {musicSheetUrl && (
+                  <div className="mt-2">
+                    <img 
+                      src={musicSheetUrl} 
+                      alt="Music sheet preview"
+                      className="w-full max-w-sm rounded border"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  Add or replace the music sheet image URL.
                 </p>
               </div>
 

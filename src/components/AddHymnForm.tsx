@@ -16,6 +16,7 @@ interface AddHymnFormProps {
     category: string;
     lyrics: string[];
     tune?: string;
+    musicSheetUrl?: string;
   }) => void;
 }
 
@@ -25,6 +26,7 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
   const [category, setCategory] = useState("");
   const [tune, setTune] = useState("");
   const [lyrics, setLyrics] = useState("");
+  const [musicSheetUrl, setMusicSheetUrl] = useState("");
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -48,6 +50,7 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
       category,
       lyrics: lyricsArray,
       tune: tune.trim() || undefined,
+      musicSheetUrl: musicSheetUrl.trim() || undefined,
     });
 
     // Reset form
@@ -56,6 +59,7 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
     setCategory("");
     setTune("");
     setLyrics("");
+    setMusicSheetUrl("");
 
     toast({
       title: "Hymn Added",
@@ -136,6 +140,21 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
               />
               <p className="text-xs text-muted-foreground">
                 Tip: Separate each verse with a blank line for proper formatting.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="musicSheet">Music Sheet URL (Optional)</Label>
+              <Input
+                id="musicSheet"
+                type="url"
+                value={musicSheetUrl}
+                onChange={(e) => setMusicSheetUrl(e.target.value)}
+                placeholder="Enter URL for music sheet image"
+                className="bg-card/50 border-hymnal-burgundy/20 focus:border-hymnal-burgundy"
+              />
+              <p className="text-xs text-muted-foreground">
+                Add a link to an image of the music sheet (optional).
               </p>
             </div>
 

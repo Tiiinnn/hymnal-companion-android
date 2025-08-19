@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Home, Heart, Search, Plus, Settings } from "lucide-react";
+import { Home, Heart, Search, Plus, Settings, Upload } from "lucide-react";
 
 interface NavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onImportHymn?: () => void;
+  onSettings?: () => void;
 }
 
-export const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
+export const Navigation = ({ activeTab, onTabChange, onImportHymn, onSettings }: NavigationProps) => {
   const tabs = [
     { id: "home", label: "Home", icon: Home },
     { id: "browse", label: "Browse", icon: Search },
@@ -23,13 +25,30 @@ export const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
             key={id}
             variant={activeTab === id ? "hymnal" : "ghost"}
             size="sm"
-            onClick={() => onTabChange(id)}
+            onClick={() => {
+              if (id === "settings" && onSettings) {
+                onSettings();
+              } else {
+                onTabChange(id);
+              }
+            }}
             className="flex flex-col gap-1 h-auto py-2 px-3"
           >
             <Icon className="h-5 w-5" />
             <span className="text-xs">{label}</span>
           </Button>
         ))}
+        {onImportHymn && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onImportHymn}
+            className="flex flex-col gap-1 h-auto py-2 px-3"
+          >
+            <Upload className="h-5 w-5" />
+            <span className="text-xs">Import</span>
+          </Button>
+        )}
       </div>
     </nav>
   );

@@ -65,19 +65,6 @@ export const MusicSheetView = ({ hymn, onBack }: MusicSheetViewProps) => {
           ))}
         </div>
 
-        <Card className="mt-6 border-hymnal-burgundy/20 bg-card/50 backdrop-blur-sm">
-          <CardContent className="p-6 text-center">
-            <Music className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-muted-foreground mb-2">Music Sheet Mode</h3>
-            <p className="text-muted-foreground mb-4">
-              View and download the musical notation for this hymn. Perfect for musicians and choir directors.
-            </p>
-            <Button variant="hymnal-outline">
-              <Download className="h-4 w-4" />
-              Download PDF
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

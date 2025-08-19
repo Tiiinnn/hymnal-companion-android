@@ -6,6 +6,8 @@ import { HymnDetail } from "@/components/HymnDetail";
 import { EditHymnForm } from "@/components/EditHymnForm";
 import { MusicSheetView } from "@/components/MusicSheetView";
 import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
+import { ImportHymnDialog } from "@/components/ImportHymnDialog";
+import { SettingsDialog } from "@/components/SettingsDialog";
 import { Navigation } from "@/components/Navigation";
 import { AddHymnForm } from "@/components/AddHymnForm";
 import { Button } from "@/components/ui/button";
@@ -21,6 +23,8 @@ const Index = () => {
   const [editingHymn, setEditingHymn] = useState<Hymn | null>(null);
   const [viewingMusicSheet, setViewingMusicSheet] = useState<Hymn | null>(null);
   const [deleteHymn, setDeleteHymn] = useState<Hymn | null>(null);
+  const [showImportDialog, setShowImportDialog] = useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [favorites, setFavorites] = useState<number[]>([]);
@@ -305,13 +309,29 @@ const Index = () => {
         {renderContent()}
       </main>
 
-      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <Navigation 
+        activeTab={activeTab} 
+        onTabChange={setActiveTab}
+        onImportHymn={() => setShowImportDialog(true)}
+        onSettings={() => setShowSettingsDialog(true)}
+      />
 
       <DeleteConfirmDialog
         hymn={deleteHymn}
         open={!!deleteHymn}
         onConfirm={() => deleteHymn && handleDeleteHymn(deleteHymn)}
         onCancel={() => setDeleteHymn(null)}
+      />
+
+      <ImportHymnDialog
+        open={showImportDialog}
+        onOpenChange={setShowImportDialog}
+        onImportHymn={handleAddHymn}
+      />
+
+      <SettingsDialog
+        open={showSettingsDialog}
+        onOpenChange={setShowSettingsDialog}
       />
     </div>
   );

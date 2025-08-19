@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Heart, Edit, Trash2, Music, FileText } from "lucide-react";
+import { ArrowLeft, Heart, Edit, Trash2, Music, FileText, Share2 } from "lucide-react";
 import { Hymn } from "@/data/hymns";
+import { ShareHymnDialog } from "./ShareHymnDialog";
 
 interface HymnDetailProps {
   hymn: Hymn;
@@ -17,6 +18,7 @@ interface HymnDetailProps {
 
 export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusicSheet }: HymnDetailProps) => {
   const [showMusicSheet, setShowMusicSheet] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-hymnal-cream to-hymnal-parchment">
@@ -35,6 +37,9 @@ export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusic
                   hymn.isFavorite ? "fill-hymnal-burgundy text-hymnal-burgundy scale-110" : "text-muted-foreground"
                 }`}
               />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setShowShareDialog(true)}>
+              <Share2 className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon" onClick={onMusicSheet}>
               <Music className="h-5 w-5" />
@@ -127,6 +132,12 @@ export const HymnDetail = ({ hymn, onBack, onFavorite, onEdit, onDelete, onMusic
             )}
           </CardContent>
         </Card>
+
+        <ShareHymnDialog
+          hymn={hymn}
+          open={showShareDialog}
+          onOpenChange={setShowShareDialog}
+        />
       </div>
     </div>
   );

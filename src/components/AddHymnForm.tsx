@@ -49,7 +49,7 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith('image/') || file.type === 'application/pdf') {
         setMusicSheetFile(file);
         // Create a local URL for preview
         const url = URL.createObjectURL(file);
@@ -244,13 +244,13 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
                           <p className="text-sm text-muted-foreground">
                             {musicSheetFile ? musicSheetFile.name : "Click to upload music sheet"}
                           </p>
-                          <p className="text-xs text-muted-foreground mt-1">PNG, JPG, JPEG up to 10MB</p>
+                          <p className="text-xs text-muted-foreground mt-1">PNG, JPG, JPEG, PDF up to 10MB</p>
                         </div>
                       </div>
                       <input
                         id="musicSheetFile"
                         type="file"
-                        accept="image/*"
+                        accept="image/*,application/pdf"
                         onChange={handleFileUpload}
                         className="hidden"
                       />
@@ -268,14 +268,20 @@ export const AddHymnForm = ({ onAddHymn }: AddHymnFormProps) => {
                   </div>
                   {musicSheetUrl && (
                     <div className="mt-2">
-                      <img 
-                        src={musicSheetUrl} 
-                        alt="Music sheet preview"
-                        className="w-full max-w-md rounded-lg shadow-soft"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
+                      {musicSheetFile?.type === 'application/pdf' ? (
+                        <div className="w-full max-w-md bg-gray-100 rounded-lg p-4 text-center">
+                          <p className="text-sm text-muted-foreground">PDF Preview: {musicSheetFile.name}</p>
+                        </div>
+                      ) : (
+                        <img 
+                          src={musicSheetUrl} 
+                          alt="Music sheet preview"
+                          className="w-full max-w-md rounded-lg shadow-soft"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      )}
                     </div>
                   )}
                 </div>

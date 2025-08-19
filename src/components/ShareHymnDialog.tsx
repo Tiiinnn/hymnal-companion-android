@@ -20,32 +20,52 @@ export const ShareHymnDialog = ({ hymn, open, onOpenChange }: ShareHymnDialogPro
     try {
       const hymnData = JSON.stringify(hymn, null, 2);
       const blob = new Blob([hymnData], { type: 'application/json' });
-      const file = new File([blob], `${hymn.title.replace(/\s+/g, '_')}.hymn`, { type: 'application/json' });
+      const fileName = `${hymn.title.replace(/[^a-zA-Z0-9]/g, '_')}.hymn`;
 
-      if (navigator.share && navigator.canShare({ files: [file] })) {
+      if (navigator.share) {
+        // Try to share as file if supported
+        try {
+          const file = new File([blob], fileName, { type: 'application/json' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: `Share ${hymn.title}`,
+              text: `Check out this hymn: ${hymn.title}`,
+              files: [file]
+            });
+            toast({
+              title: "Hymn shared successfully",
+              description: "The hymn file has been shared.",
+            });
+            onOpenChange(false);
+            return;
+          }
+        } catch (shareError) {
+          console.log('File sharing not supported, trying text share');
+        }
+
+        // Fallback to text sharing
         await navigator.share({
           title: `Share ${hymn.title}`,
-          text: `Check out this hymn: ${hymn.title}`,
-          files: [file]
+          text: `${hymn.title}\nBy: ${hymn.author}\n\n${hymn.lyrics.join('\n\n')}`,
         });
         toast({
           title: "Hymn shared successfully",
-          description: "The hymn has been shared.",
+          description: "The hymn text has been shared.",
         });
       } else {
-        // Fallback: download the file
+        // Fallback: create download link
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${hymn.title.replace(/\s+/g, '_')}.hymn`;
+        a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
         toast({
-          title: "File downloaded",
-          description: "The hymn file has been downloaded. You can share it manually.",
+          title: "File exported",
+          description: "The hymn file has been exported to your device.",
         });
       }
     } catch (error) {
@@ -93,8 +113,8 @@ export const ShareHymnDialog = ({ hymn, open, onOpenChange }: ShareHymnDialogPro
             disabled={isSharing}
             className="flex items-center gap-2"
           >
-            <Download className="h-4 w-4" />
-            {isSharing ? "Sharing..." : "Share as File"}
+            <Share2 className="h-4 w-4" />
+            {isSharing ? "Sharing..." : "Share Hymn File"}
           </Button>
           <Button
             variant="outline"

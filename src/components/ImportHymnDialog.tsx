@@ -3,12 +3,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Upload, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Hymn } from "@/data/hymns";
 
 interface ImportHymnDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onImportHymn: (hymn: Hymn) => void;
+  onImportHymn: (hymn: {
+    title: string;
+    author: string;
+    category: string;
+    lyrics: string[];
+    keySignature?: string;
+    musicSheetUrl?: string;
+  }) => void;
 }
 
 export const ImportHymnDialog = ({ open, onOpenChange, onImportHymn }: ImportHymnDialogProps) => {
@@ -19,20 +25,34 @@ export const ImportHymnDialog = ({ open, onOpenChange, onImportHymn }: ImportHym
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Check if it's a .hymn file
+    if (!file.name.endsWith('.hymn') && !file.name.endsWith('.json')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please select a .hymn file to import.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsImporting(true);
     try {
       const text = await file.text();
-      const hymnData = JSON.parse(text) as Hymn;
+      const hymnData = JSON.parse(text);
       
-      // Validate the hymn data
+      // Validate the hymn data structure
       if (!hymnData.title || !hymnData.author || !Array.isArray(hymnData.lyrics)) {
         throw new Error("Invalid hymn file format");
       }
 
-      // Generate new ID to avoid conflicts
+      // Create the hymn object for import
       const newHymn = {
-        ...hymnData,
-        id: Date.now()
+        title: hymnData.title,
+        author: hymnData.author,
+        category: hymnData.category || "Imported",
+        lyrics: hymnData.lyrics,
+        keySignature: hymnData.keySignature,
+        musicSheetUrl: hymnData.musicSheetUrl,
       };
 
       onImportHymn(newHymn);
@@ -44,8 +64,8 @@ export const ImportHymnDialog = ({ open, onOpenChange, onImportHymn }: ImportHym
     } catch (error) {
       console.error('Error importing hymn:', error);
       toast({
-        title: "Error importing hymn",
-        description: "The file format is not valid or corrupted.",
+        title: "Import failed",
+        description: "The file format is invalid or the file is corrupted.",
         variant: "destructive",
       });
     } finally {
@@ -81,9 +101,13 @@ export const ImportHymnDialog = ({ open, onOpenChange, onImportHymn }: ImportHym
             onClick={() => document.getElementById('hymn-file-input')?.click()}
             disabled={isImporting}
             className="w-full"
+            variant="hymnal"
           >
-            {isImporting ? "Importing..." : "Choose File"}
+            {isImporting ? "Importing..." : "Choose .hymn file"}
           </Button>
+          <p className="text-xs text-muted-foreground text-center">
+            Import .hymn files shared from other devices or exported from this app.
+          </p>
         </div>
       </DialogContent>
     </Dialog>

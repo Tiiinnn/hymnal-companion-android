@@ -12,8 +12,12 @@ const config: CapacitorConfig = {
     buildOptions: {
       keystorePath: undefined,
       keystoreAlias: undefined,
-      releaseType: 'APK'
-    }
+      releaseType: 'APK',
+      signingType: 'apksigner'
+    },
+    allowMixedContent: true,
+    captureInput: true,
+    webContentsDebuggingEnabled: true
   },
   plugins: {
     SplashScreen: {

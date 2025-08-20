@@ -22,57 +22,25 @@ export const ShareHymnDialog = ({ hymn, open, onOpenChange }: ShareHymnDialogPro
       const blob = new Blob([hymnData], { type: 'application/json' });
       const fileName = `${hymn.title.replace(/[^a-zA-Z0-9]/g, '_')}.hymn`;
 
-      if (navigator.share) {
-        // Try to share as file if supported
-        try {
-          const file = new File([blob], fileName, { type: 'application/json' });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              title: `Share ${hymn.title}`,
-              text: `Check out this hymn: ${hymn.title}`,
-              files: [file]
-            });
-            toast({
-              title: "Hymn shared successfully",
-              description: "The hymn file has been shared.",
-            });
-            onOpenChange(false);
-            return;
-          }
-        } catch (shareError) {
-          console.log('File sharing not supported, trying text share');
-        }
-
-        // Fallback to text sharing
-        await navigator.share({
-          title: `Share ${hymn.title}`,
-          text: `${hymn.title}\nBy: ${hymn.author}\n\n${hymn.lyrics.join('\n\n')}`,
-        });
-        toast({
-          title: "Hymn shared successfully",
-          description: "The hymn text has been shared.",
-        });
-      } else {
-        // Fallback: create download link
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        toast({
-          title: "File exported",
-          description: "The hymn file has been exported to your device.",
-        });
-      }
-    } catch (error) {
-      console.error('Error sharing hymn:', error);
+      // Always export as file to device
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
       toast({
-        title: "Error sharing hymn",
-        description: "There was a problem sharing the hymn.",
+        title: "Hymn exported",
+        description: "The hymn file has been exported to your device and is ready to share.",
+      });
+    } catch (error) {
+      console.error('Error exporting hymn:', error);
+      toast({
+        title: "Error exporting hymn",
+        description: "There was a problem exporting the hymn.",
         variant: "destructive",
       });
     } finally {
@@ -114,7 +82,7 @@ export const ShareHymnDialog = ({ hymn, open, onOpenChange }: ShareHymnDialogPro
             className="flex items-center gap-2"
           >
             <Share2 className="h-4 w-4" />
-            {isSharing ? "Sharing..." : "Share Hymn File"}
+            {isSharing ? "Exporting..." : "Export Hymn File"}
           </Button>
           <Button
             variant="outline"

@@ -73,48 +73,50 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 345 83% 8%;
-    --foreground: 44 13% 95%;
+    /* Natural black and white dark mode */
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
 
-    --card: 345 50% 12%;
-    --card-foreground: 44 13% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 345 50% 12%;
-    --popover-foreground: 44 13% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 44 13% 95%;
-    --primary-foreground: 345 83% 8%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 3%;
 
-    --secondary: 345 25% 18%;
-    --secondary-foreground: 44 13% 95%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 345 25% 15%;
-    --muted-foreground: 345 15% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 345 25% 18%;
-    --accent-foreground: 44 13% 95%;
+    --accent: 0 0% 14%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 44 13% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 345 25% 18%;
-    --input: 345 25% 18%;
-    --ring: 345 83% 21%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 50%;
 
-    /* Dark theme hymnal colors */
-    --hymnal-burgundy: 345 83% 35%;
-    --hymnal-burgundy-light: 345 45% 50%;
-    --hymnal-gold: 45 90% 60%;
-    --hymnal-cream: 44 13% 95%;
-    --hymnal-parchment: 345 25% 15%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Dark theme hymnal colors - simplified */
+    --hymnal-burgundy: 0 0% 80%;
+    --hymnal-burgundy-light: 0 0% 60%;
+    --hymnal-gold: 45 100% 70%;
+    --hymnal-cream: 0 0% 98%;
+    --hymnal-parchment: 0 0% 12%;
+    
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 0% 80%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 50%;
   }
 }
 

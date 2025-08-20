@@ -4,10 +4,6 @@ const config: CapacitorConfig = {
   appId: 'app.lovable.2ea1426570294750abebe54753bc9d2a',
   appName: 'Hymns',
   webDir: 'dist',
-  server: {
-    url: 'https://2ea14265-7029-4750-abeb-e54753bc9d2a.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
   android: {
     buildOptions: {
       keystorePath: undefined,

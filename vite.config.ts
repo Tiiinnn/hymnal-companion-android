@@ -10,25 +10,25 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-select']
+        }
+      }
+    }
+  },
   plugins: [
     react(),
     mode === 'development' && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,json}"],
+        maximumFileSizeToCacheInBytes: 5000000,
         runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/images\.pexels\.com\/.*/i,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "pexels-images",
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-              },
-            },
-          },
           {
             urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
             handler: "CacheFirst",

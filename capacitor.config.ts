@@ -8,6 +8,13 @@ const config: CapacitorConfig = {
     url: 'https://2ea14265-7029-4750-abeb-e54753bc9d2a.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
+  android: {
+    buildOptions: {
+      keystorePath: undefined,
+      keystoreAlias: undefined,
+      releaseType: 'APK'
+    }
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 3000,

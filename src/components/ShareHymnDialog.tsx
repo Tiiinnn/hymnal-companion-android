@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Share2, Copy, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Hymn } from "@/data/hymns";
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
 
 interface ShareHymnDialogProps {
   hymn: Hymn;
@@ -34,41 +36,52 @@ export const ShareHymnDialog = ({ hymn, open, onOpenChange }: ShareHymnDialogPro
       // Convert hymn data to JSON string with proper formatting
       const hymnData = JSON.stringify(hymnForExport, null, 2);
       
-      // Create a blob with the hymn data
-      const blob = new Blob([hymnData], { 
-        type: 'application/json'
-      });
-      
       // Create a safe filename by removing special characters
       const safeTitle = hymn.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
       const fileName = `${safeTitle}.hymn`;
 
-      // Create download link and trigger download
-      const url = URL.createObjectURL(blob);
-      const downloadLink = document.createElement('a');
-      downloadLink.href = url;
-      downloadLink.download = fileName;
-      downloadLink.style.display = 'none';
-      
-      // Add to DOM, click, and remove
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-      
-      // Clean up the URL object
-      URL.revokeObjectURL(url);
-      
-      toast({
-        title: "Hymn exported successfully",
-        description: `"${fileName}" has been saved to your device and is ready to share.`,
-      });
+      if (Capacitor.isNativePlatform()) {
+        // Use Capacitor Filesystem API for mobile platforms
+        await Filesystem.writeFile({
+          path: fileName,
+          data: hymnData,
+          directory: Directory.Documents,
+          encoding: Encoding.UTF8,
+        });
+        
+        toast({
+          title: "Hymn exported successfully",
+          description: `"${fileName}" has been saved to your Documents folder.`,
+        });
+      } else {
+        // Fallback to browser download for web
+        const blob = new Blob([hymnData], { 
+          type: 'application/json'
+        });
+        
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = fileName;
+        downloadLink.style.display = 'none';
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(url);
+        
+        toast({
+          title: "Hymn exported successfully",
+          description: `"${fileName}" has been downloaded to your device.`,
+        });
+      }
       
       onOpenChange(false);
     } catch (error) {
       console.error('Error exporting hymn:', error);
       toast({
         title: "Export failed",
-        description: "There was a problem creating the hymn file.",
+        description: "There was a problem creating the hymn file. Make sure the app has permission to write files.",
         variant: "destructive",
       });
     } finally {

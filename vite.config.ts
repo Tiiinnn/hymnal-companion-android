@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,json}"],
+        globIgnores: ["**/wrapper/**", "**/gradle/**", "**/android/**"],
         maximumFileSizeToCacheInBytes: 5000000,
         runtimeCaching: [
           {

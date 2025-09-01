@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => ({
           },
         ],
       },
-      includeAssets: ["favicon.ico"],
+      includeAssets: ["/lovable-uploads/4d6670db-abef-43da-a07c-a1e751fa522b.png"],
       manifest: {
         name: "Hymns",
         short_name: "Hymns",
@@ -61,10 +61,16 @@ export default defineConfig(({ mode }) => ({
         start_url: "/",
         icons: [
           {
-            src: "/favicon.ico",
-            sizes: "64x64 32x32 24x24 16x16",
-            type: "image/x-icon",
+            src: "/lovable-uploads/4d6670db-abef-43da-a07c-a1e751fa522b.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable"
           },
+          {
+            src: "/lovable-uploads/4d6670db-abef-43da-a07c-a1e751fa522b.png",
+            sizes: "192x192",
+            type: "image/png"
+          }
         ],
       },
     }),

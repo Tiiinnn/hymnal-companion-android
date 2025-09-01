@@ -13,7 +13,8 @@ const config: CapacitorConfig = {
     },
     allowMixedContent: true,
     captureInput: true,
-    webContentsDebuggingEnabled: true
+    webContentsDebuggingEnabled: true,
+    includePlugins: []
   },
   plugins: {
     SplashScreen: {
